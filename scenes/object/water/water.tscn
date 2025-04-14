@@ -30,7 +30,7 @@ size = Vector2(384, 67)
 
 [node name="Water" type="Area2D"]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 512
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7j5jw")

@@ -120,13 +120,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w266e"]
-size = Vector2(9, 12)
+size = Vector2(9, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i0n8r"]
 size = Vector2(11, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5rhya"]
-size = Vector2(21, 20)
+size = Vector2(21, 13)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 512
@@ -138,14 +138,13 @@ spear_scene = ExtResource("2_6fxqh")
 position = Vector2(0, -1.52841)
 scale = Vector2(1, 0.923822)
 sprite_frames = SubResource("SpriteFrames_7rrpk")
-animation = &"goal"
+animation = &"idle_run"
 autoplay = "idle_run"
-frame_progress = 0.562006
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 512
 visibility_layer = 510
-position = Vector2(-1.5, 1)
+position = Vector2(-1.5, 0.5)
 shape = SubResource("RectangleShape2D_w266e")
 
 [node name="WaterDetector" type="Area2D" parent="."]
@@ -161,7 +160,7 @@ collision_layer = 512
 collision_mask = 1024
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalDetector"]
-position = Vector2(0, -2)
+position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_5rhya")
 
 [connection signal="area_entered" from="GoalDetector" to="." method="_on_GoalDetector_area_entered"]

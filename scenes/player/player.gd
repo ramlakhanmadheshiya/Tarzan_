@@ -1,22 +1,28 @@
 extends CharacterBody2D
 
-@export var speed = 400.0
+# -- Movement and physics config --
+@export var speed = 100.0
 @export var jump_velocity = -450.0
 @export var swim_speed_horizontal = 100.0
 @export var swim_speed_vertical = 80.0
 @export var water_gravity_scale = 0.3
 @export var attack_duration = 0.6
 @export var deceleration_factor = 5.0
-@export var spear_scene: PackedScene
+@export var spear_scene: PackedScene  # Spear scene to instantiate on attack
 
+# -- Runtime variables --
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# -- Cached nodes --
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var water_detector = $WaterDetector
 
+# -- Player states --
 enum State { IDLE_RUN, GO_UP, GO_DOWN, SWIM, ATTACK, DIE, GOAL }
 var current_state = State.IDLE_RUN
-var facing_direction = 1
+
+# -- State flags --
+var facing_direction = 1  # 1 = right, -1 = left (not flipped in autorun)
 var is_in_water = false
 var is_attacking = false
 var attack_timer = 0.0
@@ -28,31 +34,38 @@ func _ready():
 	update_animation()
 
 func _physics_process(delta):
+	# Don't move if player is dead or goal reached
 	if current_state == State.DIE or current_state == State.GOAL:
 		return
 
+	# Handle attack timer
 	if is_attacking:
 		attack_timer -= delta
 		if attack_timer <= 0:
 			is_attacking = false
 
+	# Apply gravity based on whether in water or not
 	if not is_on_floor() and not is_in_water:
 		velocity.y += gravity * delta
 	elif is_in_water:
 		velocity.y += gravity * water_gravity_scale * delta
 
-	if not is_attacking:
-		handle_input(delta)
+	# Handle player input
+	handle_input(delta)
 
+	# Move the player using current velocity
 	move_and_slide()
+
+	# Update state and animation based on movement
 	update_state()
 	update_animation()
 
 func handle_input(delta):
-	# Autorun always to the right
+	# Autorun movement to the right
 	velocity.x = speed
 	facing_direction = 1
 
+	# Detect vertical input
 	var vertical_direction = 0
 	if Input.is_action_pressed("go_up"):
 		vertical_direction = -1
@@ -60,31 +73,35 @@ func handle_input(delta):
 		vertical_direction = 1
 
 	if is_in_water:
-		velocity.x = speed
+		# Swimming movement (horizontal + vertical)
 		if vertical_direction:
 			velocity.y = vertical_direction * swim_speed_vertical
 		else:
 			velocity.y = move_toward(velocity.y, 0, swim_speed_vertical * deceleration_factor * delta)
 	else:
+		# Jump if pressing go_up and on floor
 		if Input.is_action_just_pressed("go_up") and is_on_floor():
 			velocity.y = jump_velocity
 
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		is_attacking = true
 		attack_timer = attack_duration
-		velocity.x = 0  # Stop during attack
+		velocity.x = 0  # Pause movement during attack
 
+		# Throw spear
 		if spear_scene:
 			var spear = spear_scene.instantiate()
 			spear.position = global_position
 			spear.direction = facing_direction
 			get_tree().current_scene.add_child(spear)
 
-	animated_sprite.flip_h = false  # Always facing right
+	# Flip sprite direction (though currently always running right)
+	animated_sprite.flip_h = false
 
 func update_state():
 	if current_state == State.DIE or current_state == State.GOAL:
 		return
+
 	if is_attacking:
 		current_state = State.ATTACK
 		return
@@ -100,6 +117,7 @@ func update_state():
 			current_state = State.IDLE_RUN
 
 func update_animation():
+	# Choose animation based on current state
 	var anim_name = "idle_run"
 	match current_state:
 		State.IDLE_RUN: anim_name = "idle_run"
@@ -110,13 +128,14 @@ func update_animation():
 		State.DIE: anim_name = "die"
 		State.GOAL: anim_name = "goal"
 
+	# Play animation only if it has changed
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
 
 func set_in_water(status: bool):
 	is_in_water = status
 	if is_in_water:
-		velocity.y = 0
+		velocity.y = 0  # Reset vertical speed when entering water
 
 func die(instant := false):
 	if current_state == State.DIE:
@@ -133,20 +152,26 @@ func die(instant := false):
 		current_state = State.DIE
 		update_animation()
 
+	# After delay, reload the scene
 	await get_tree().create_timer(2.0).timeout
 	get_tree().reload_current_scene()
 
 func collect_fruit():
+	# Increase fruit score and print it
 	fruit_score += 1
 	print("🍇 Fruit score: ", fruit_score)
 
-# ✅ Called by goal.gd when player reaches the goal
 func on_reach_goal():
+	# Called when goal is reached
 	if not reached_goal:
 		reached_goal = true
 		current_state = State.GOAL
 		velocity = Vector2.ZERO
 		update_animation()
-
 		await get_tree().create_timer(2.0).timeout
 		get_tree().reload_current_scene()
+
+# ✅ Manually move player down slightly when "go_down" is pressed (optional fallback)
+func _input(event : InputEvent):
+	if(event.is_action_pressed("go_down")):
+		position.y += 5

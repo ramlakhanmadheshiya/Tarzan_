@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgfdc52tcpd02"]
+[gd_scene load_steps=10 format=3 uid="uid://bgfdc52tcpd02"]
 
 [ext_resource type="PackedScene" uid="uid://cuk0oolvd88u" path="res://scenes/player/player.tscn" id="1_1qlkt"]
+[ext_resource type="PackedScene" uid="uid://f58f4l86esad" path="res://scenes/Backgrounds/bg_s1.tscn" id="1_m2bc6"]
 [ext_resource type="PackedScene" uid="uid://bhttfxvnuekuy" path="res://scenes/object/water/water.tscn" id="1_qp8cy"]
 [ext_resource type="PackedScene" uid="uid://c35qpwkdrnms7" path="res://scenes/enemy/tiger.tscn" id="3_gxbyl"]
 [ext_resource type="PackedScene" uid="uid://0dhex5ivjyaf" path="res://scenes/enemy/static enemy/spike.tscn" id="4_2bg05"]
@@ -11,6 +12,8 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_uv2g2"]
 
 [node name="TestLevel" type="Node"]
+
+[node name="S1_background" parent="." instance=ExtResource("1_m2bc6")]
 
 [node name="Water" parent="." instance=ExtResource("1_qp8cy")]
 position = Vector2(1499, 336)
@@ -45,7 +48,7 @@ position = Vector2(5315, 181)
 scale = Vector2(1.5, 1.5)
 
 [node name="Goal" parent="." instance=ExtResource("5_uckkq")]
-position = Vector2(2789, 164)
+position = Vector2(6240, 186)
 
 [node name="fruit2" parent="." instance=ExtResource("6_kj5bh")]
 position = Vector2(4205, 193)
@@ -60,5 +63,5 @@ position = Vector2(4914, 186)
 scale = Vector2(2, 2)
 
 [node name="Golden fruit" parent="." instance=ExtResource("7_qq6pr")]
-position = Vector2(3962, 204)
+position = Vector2(6088, 190)
 scale = Vector2(1.5, 1.5)
