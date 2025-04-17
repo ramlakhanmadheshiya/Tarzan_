@@ -43,13 +43,13 @@ func _physics_process(delta):
 		if attack_timer <= 0:
 			is_attacking = false
 
-	# Gravity handling
+	# Handle gravity
 	if not is_on_floor() and not is_in_water:
 		velocity.y += gravity * delta
 	elif is_in_water:
-		velocity.y += gravity * water_gravity_scale * delta
+		velocity.y = 0  # ❌ Disable vertical physics movement in water
 
-	# User-defined input logic
+	# Handle manual up/down keys (don't modify this)
 	if Input.is_action_just_pressed("go_up") and is_on_floor():
 		velocity.y = jump_velocity
 
@@ -62,18 +62,21 @@ func _physics_process(delta):
 	update_animation()
 
 func handle_input(delta):
+	if is_in_water:
+		# ✅ Auto swim right only
+		velocity.x = swim_speed_horizontal
+		velocity.y = 0
+		return
+
+	# ✅ On land: Autorun to the right
 	velocity.x = speed
 	facing_direction = 1
 
-	# --- Skip input if in water (auto swim) ---
-	if is_in_water:
-		return
-
-	# Attack input (same for all states)
+	# ✅ Attack (only on land)
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		is_attacking = true
 		attack_timer = attack_duration
-		velocity.x = 0
+		velocity.x = 0  # Stop while attacking
 
 		if spear_scene:
 			var spear = spear_scene.instantiate()
@@ -114,7 +117,7 @@ func update_animation():
 func set_in_water(status: bool):
 	is_in_water = status
 	if is_in_water:
-		velocity.y = 0
+		velocity.y = 0  # Reset vertical velocity when entering water
 
 func die(instant := false):
 	if current_state == State.DIE:
