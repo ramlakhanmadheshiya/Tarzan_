@@ -163,4 +163,8 @@ collision_mask = 1024
 position = Vector2(0, -2.5)
 shape = SubResource("RectangleShape2D_5rhya")
 
+[node name="FloorRay" type="RayCast2D" parent="."]
+target_position = Vector2(0, 7)
+collision_mask = 5
+
 [connection signal="area_entered" from="GoalDetector" to="." method="_on_GoalDetector_area_entered"]

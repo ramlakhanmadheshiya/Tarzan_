@@ -7,7 +7,9 @@ extends CharacterBody2D
 @onready var hurtbox_shape: CollisionShape2D = $Hurtbox/CollisionShape2D
 
 func _ready():
-	hurtbox.body_entered.connect(_on_Hurtbox_body_entered)
+	if not $Hurtbox.is_connected("body_entered", Callable(self, "_on_Hurtbox_body_entered")):
+		$Hurtbox.body_entered.connect(_on_Hurtbox_body_entered)
+
 
 func _physics_process(delta):
 	if not snap_on_start:

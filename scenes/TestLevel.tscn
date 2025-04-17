@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgfdc52tcpd02"]
+[gd_scene load_steps=13 format=3 uid="uid://bgfdc52tcpd02"]
 
 [ext_resource type="PackedScene" uid="uid://cuk0oolvd88u" path="res://scenes/player/player.tscn" id="1_1qlkt"]
 [ext_resource type="PackedScene" uid="uid://f58f4l86esad" path="res://scenes/Backgrounds/bg_s1.tscn" id="1_m2bc6"]
@@ -8,60 +8,80 @@
 [ext_resource type="PackedScene" uid="uid://b3y10wvmjlsbx" path="res://scenes/goal/goal.tscn" id="5_uckkq"]
 [ext_resource type="PackedScene" uid="uid://2pcukjso65g3" path="res://scenes/fruit/fruit.tscn" id="6_kj5bh"]
 [ext_resource type="PackedScene" uid="uid://dfnk3rjvfe3e5" path="res://scenes/golden fruit/golden_fruit.tscn" id="7_qq6pr"]
+[ext_resource type="Texture2D" uid="uid://b4h6g6curpidf" path="res://assets/sprites/platform/0.png" id="9_dskp0"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_uv2g2"]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1om87"]
+texture = ExtResource("9_dskp0")
+texture_region_size = Vector2i(32, 9)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -4, 16, -4, 16, 4, -16, 4)
+0:0/0/physics_layer_0/polygon_0/one_way = true
+
+[sub_resource type="TileSet" id="TileSet_tkynb"]
+physics_layer_0/collision_layer = 4
+physics_layer_0/collision_mask = 512
+sources/0 = SubResource("TileSetAtlasSource_1om87")
+
 [node name="TestLevel" type="Node"]
 
-[node name="S1_background" parent="." instance=ExtResource("1_m2bc6")]
+[node name="tested" type="Node" parent="."]
 
-[node name="Water" parent="." instance=ExtResource("1_qp8cy")]
-position = Vector2(1499, 336)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(3, 13)
-collision_mask = 544
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(306, 221)
-shape = SubResource("WorldBoundaryShape2D_uv2g2")
-
-[node name="Player" parent="." instance=ExtResource("1_1qlkt")]
-position = Vector2(-559, 96)
-scale = Vector2(7, 7)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, 0.285715)
-scale = Vector2(0.142857, 0.142857)
-position_smoothing_enabled = true
-
-[node name="Tiger2" parent="." instance=ExtResource("3_gxbyl")]
+[node name="Tiger2" parent="tested" instance=ExtResource("3_gxbyl")]
 position = Vector2(2084, 188)
 scale = Vector2(1.5, 1.5)
 
-[node name="Tiger" parent="." instance=ExtResource("3_gxbyl")]
+[node name="Tiger" parent="tested" instance=ExtResource("3_gxbyl")]
 position = Vector2(792, 194)
 scale = Vector2(1.5, 1.5)
 
-[node name="Spike" parent="." instance=ExtResource("4_2bg05")]
+[node name="Spike" parent="tested" instance=ExtResource("4_2bg05")]
 position = Vector2(5315, 181)
 scale = Vector2(1.5, 1.5)
 
-[node name="Goal" parent="." instance=ExtResource("5_uckkq")]
+[node name="Goal" parent="tested" instance=ExtResource("5_uckkq")]
 position = Vector2(6240, 186)
 
-[node name="fruit2" parent="." instance=ExtResource("6_kj5bh")]
+[node name="fruit2" parent="tested" instance=ExtResource("6_kj5bh")]
 position = Vector2(4205, 193)
 scale = Vector2(2, 2)
 
-[node name="fruit" parent="." instance=ExtResource("6_kj5bh")]
+[node name="Golden fruit" parent="tested" instance=ExtResource("7_qq6pr")]
+position = Vector2(6088, 190)
+scale = Vector2(1.5, 1.5)
+
+[node name="fruit" parent="tested" instance=ExtResource("6_kj5bh")]
 position = Vector2(4565, 193)
 scale = Vector2(2, 2)
 
-[node name="fruit3" parent="." instance=ExtResource("6_kj5bh")]
+[node name="fruit3" parent="tested" instance=ExtResource("6_kj5bh")]
 position = Vector2(4914, 186)
 scale = Vector2(2, 2)
 
-[node name="Golden fruit" parent="." instance=ExtResource("7_qq6pr")]
-position = Vector2(6088, 190)
-scale = Vector2(1.5, 1.5)
+[node name="Water" parent="tested" instance=ExtResource("1_qp8cy")]
+position = Vector2(1499, 336)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="tested"]
+position = Vector2(3, 13)
+collision_mask = 544
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="tested/StaticBody2D"]
+position = Vector2(306, 221)
+shape = SubResource("WorldBoundaryShape2D_uv2g2")
+
+[node name="S1_background" parent="tested" instance=ExtResource("1_m2bc6")]
+
+[node name="Player" parent="." instance=ExtResource("1_1qlkt")]
+position = Vector2(11637, 136)
+scale = Vector2(7, 7)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0.000139534, 0.142858)
+scale = Vector2(0.142857, 0.142857)
+position_smoothing_enabled = true
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_tkynb")
+format = 2
+layer_0/tile_data = PackedInt32Array(525036, 0, 0, 525037, 0, 0, 525038, 0, 0, 525039, 0, 0, 525040, 0, 0, 525041, 0, 0, 525042, 0, 0, 525043, 0, 0, 525044, 0, 0, 525045, 0, 0, 525046, 0, 0, 525047, 0, 0, 525048, 0, 0, 525049, 0, 0, 525050, 0, 0, 525051, 0, 0, 525052, 0, 0, 525053, 0, 0, 525054, 0, 0, 525055, 0, 0, 525056, 0, 0, 525057, 0, 0, 525058, 0, 0, 525059, 0, 0, 525060, 0, 0, 525061, 0, 0, 525062, 0, 0, 525063, 0, 0, 525064, 0, 0, 525065, 0, 0, 525066, 0, 0, 525067, 0, 0, 525068, 0, 0, 525069, 0, 0, 525070, 0, 0, 525071, 0, 0, 525072, 0, 0, 525073, 0, 0, 525074, 0, 0, 525075, 0, 0, 525076, 0, 0, 525077, 0, 0, 525078, 0, 0, 525079, 0, 0, 525080, 0, 0, 525081, 0, 0, 525082, 0, 0, 525083, 0, 0, 525084, 0, 0, 525085, 0, 0, 525086, 0, 0, 525087, 0, 0, 525088, 0, 0, 525089, 0, 0, 525090, 0, 0, 525091, 0, 0, 525092, 0, 0, 525093, 0, 0, 525094, 0, 0, 525095, 0, 0, 525096, 0, 0, 525097, 0, 0, 525098, 0, 0, 525099, 0, 0, 525100, 0, 0, 525101, 0, 0, 525102, 0, 0, 525103, 0, 0, 525104, 0, 0, 525105, 0, 0, 525106, 0, 0, 525107, 0, 0, 525108, 0, 0, 525109, 0, 0, 525110, 0, 0, 525111, 0, 0, 525112, 0, 0, 525113, 0, 0, 525114, 0, 0, 525115, 0, 0, 525116, 0, 0, 525117, 0, 0, 525118, 0, 0, 525120, 0, 0, 525121, 0, 0, 525122, 0, 0, 525123, 0, 0, 525124, 0, 0, 525125, 0, 0, 525126, 0, 0, 525127, 0, 0, 525128, 0, 0, 525129, 0, 0, 525130, 0, 0, 525131, 0, 0, 525132, 0, 0, 525133, 0, 0, 525134, 0, 0, 525119, 0, 0)
