@@ -150,5 +150,21 @@ func on_reach_goal():
 		current_state = State.GOAL
 		velocity = Vector2.ZERO
 		update_animation()
+		
+		# 👇 Extract current season & level
+		var path = get_tree().current_scene.scene_file_path
+		var season = int(path.get_file().split("_")[0].replace("S", ""))
+		var level = int(path.get_file().split("_")[1].replace("Level", "").replace(".tscn", ""))
+
+		# 👇 Unlock logic
+		var current_unlocked = SaveData.unlocked_levels.get(season, 0)
+		if level >= current_unlocked:
+			SaveData.unlocked_levels[season] = level + 1
+			if level == 10:
+				SaveData.unlocked_season = max(SaveData.unlocked_season, season + 1)
+				SaveData.unlocked_levels[season + 1] = 1
+
+		SaveData.save_game()
+		
 		await get_tree().create_timer(2.0).timeout
-		get_tree().reload_current_scene()
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")

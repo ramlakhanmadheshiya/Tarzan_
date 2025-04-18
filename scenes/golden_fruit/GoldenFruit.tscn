@@ -1,0 +1,101 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfnk3rjvfe3e5"]
+
+[ext_resource type="Texture2D" uid="uid://dbave0ujtu2j5" path="res://assets/sprites/golden_fruit/golden_fruit_0.png" id="1_45r8r"]
+[ext_resource type="Script" path="res://scenes/golden_fruit/golden_fruit.gd" id="1_al6mb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqe5q"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(0, 0, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee1rh"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(58, 0, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4r1s"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(116, 0, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgfft"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(174, 0, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijgwx"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(232, 0, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhio2"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(0, 82, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp6ml"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(58, 82, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqt1n"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(116, 82, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_foj3b"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(174, 82, 58, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4n7h"]
+atlas = ExtResource("1_45r8r")
+region = Rect2(232, 82, 58, 82)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fbauc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqe5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ee1rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4r1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgfft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijgwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhio2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lp6ml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqt1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_foj3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4n7h")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lm488"]
+radius = 25.0
+
+[node name="GoldenFruit" type="Area2D"]
+collision_layer = 2048
+collision_mask = 512
+script = ExtResource("1_al6mb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fbauc")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.63806
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lm488")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

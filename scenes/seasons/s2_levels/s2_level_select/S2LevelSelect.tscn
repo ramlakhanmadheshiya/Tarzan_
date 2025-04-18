@@ -1,0 +1,95 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb85dvou7thsi"]
+
+[ext_resource type="Script" path="res://scenes/seasons/s2_levels/s2_level_select/s2_level_select.gd" id="1_20fay"]
+[ext_resource type="Texture2D" uid="uid://j31j5nsansgm" path="res://assets/sprites/back_button/back_button.png" id="2_g6u25"]
+
+[node name="S2LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_20fay")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 378.0
+offset_top = -1.0
+offset_right = 891.0
+offset_bottom = 647.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.801187, 0.955694)
+
+[node name="LevelButton1" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 1"
+
+[node name="LevelButton2" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 2"
+
+[node name="LevelButton3" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 3"
+
+[node name="LevelButton4" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 4"
+
+[node name="LevelButton5" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 5"
+
+[node name="LevelButton6" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 6"
+
+[node name="LevelButton7" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 7"
+
+[node name="LevelButton8" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 8"
+
+[node name="LevelButton9" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 9"
+
+[node name="LevelButton10" type="Button" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level 10"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+scale = Vector2(0.4, 0.4)
+icon = ExtResource("2_g6u25")
+
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

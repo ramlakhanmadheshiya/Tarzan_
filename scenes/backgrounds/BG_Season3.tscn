@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbnygtoc4jagi"]
+
+[ext_resource type="Texture2D" uid="uid://0v4kwepcxoy6" path="res://assets/sprites/background/bg_0.jpg" id="1_ww1sw"]
+[ext_resource type="Texture2D" uid="uid://ccq5aoyc41f0u" path="res://assets/sprites/background/bg_1.jpg" id="2_51qi7"]
+[ext_resource type="Texture2D" uid="uid://dxbkgqgbp4j75" path="res://assets/sprites/background/bg_2.jpg" id="3_1os8w"]
+
+[node name="BG_Season1" type="ParallaxBackground"]
+
+[node name="Layer_0" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="Layer_0"]
+position = Vector2(576, 71)
+scale = Vector2(1.57337, 1.47039)
+texture = ExtResource("1_ww1sw")
+
+[node name="Layer_1" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Layer_1"]
+position = Vector2(578.5, 218)
+scale = Vector2(0.905469, 0.900524)
+texture = ExtResource("2_51qi7")
+
+[node name="Layer_2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.8, 0.8)
+
+[node name="Sprite2D" type="Sprite2D" parent="Layer_2"]
+position = Vector2(581, 338)
+scale = Vector2(4.04861, 3.45143)
+texture = ExtResource("3_1os8w")

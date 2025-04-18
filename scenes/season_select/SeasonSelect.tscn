@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqqg4jd5vel5k"]
+
+[ext_resource type="Script" path="res://scenes/season_select/season_select.gd" id="1_ds8fi"]
+[ext_resource type="Texture2D" uid="uid://j31j5nsansgm" path="res://assets/sprites/back_button/back_button.png" id="2_4i2sb"]
+
+[node name="SeasonSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ds8fi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.5
+offset_top = -112.0
+offset_right = 241.5
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Season1Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Season3Button")
+text = "Season 1"
+
+[node name="Season2Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Season 2"
+
+[node name="Season3Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_right = NodePath("../Season1Button")
+text = "Season 3"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+offset_right = 233.0
+offset_bottom = 233.0
+scale = Vector2(0.4, 0.4)
+icon = ExtResource("2_4i2sb")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="HBoxContainer/Season1Button" to="." method="_on_Season1Button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Season2Button" to="." method="_on_Season2Button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Season3Button" to="." method="_on_Season3Button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_BackButton_pressed"]

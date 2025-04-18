@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bhttfxvnuekuy"]
 
-[ext_resource type="Texture2D" uid="uid://xeb4j5y80r6x" path="res://assets/sprites/objects/water/0.PNG" id="1_b8j60"]
-[ext_resource type="Texture2D" uid="uid://c0jkv4tkp5fn4" path="res://assets/sprites/objects/water/1.PNG" id="2_6x535"]
-[ext_resource type="Texture2D" uid="uid://cj5tav1of2q8k" path="res://assets/sprites/objects/water/2.PNG" id="3_216xl"]
-[ext_resource type="Script" path="res://scenes/object/water/water_area.gd" id="4_xfbty"]
+[ext_resource type="Texture2D" uid="uid://xeb4j5y80r6x" path="res://assets/sprites/objects/water/water_0.PNG" id="1_b8j60"]
+[ext_resource type="Texture2D" uid="uid://c0jkv4tkp5fn4" path="res://assets/sprites/objects/water/water_1.PNG" id="2_6x535"]
+[ext_resource type="Texture2D" uid="uid://cj5tav1of2q8k" path="res://assets/sprites/objects/water/water_2.PNG" id="3_216xl"]
+[ext_resource type="Script" path="res://scenes/object/water/water.gd" id="4_xfbty"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7j5jw"]
 animations = [{

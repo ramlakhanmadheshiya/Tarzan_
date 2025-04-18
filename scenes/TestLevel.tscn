@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=3 uid="uid://bgfdc52tcpd02"]
 
-[ext_resource type="PackedScene" uid="uid://cuk0oolvd88u" path="res://scenes/player/player.tscn" id="1_1qlkt"]
-[ext_resource type="PackedScene" uid="uid://f58f4l86esad" path="res://scenes/Backgrounds/bg_s1.tscn" id="1_m2bc6"]
-[ext_resource type="PackedScene" uid="uid://bhttfxvnuekuy" path="res://scenes/object/water/water.tscn" id="1_qp8cy"]
-[ext_resource type="PackedScene" uid="uid://c35qpwkdrnms7" path="res://scenes/enemy/tiger.tscn" id="3_gxbyl"]
-[ext_resource type="PackedScene" uid="uid://0dhex5ivjyaf" path="res://scenes/enemy/static enemy/spike.tscn" id="4_2bg05"]
-[ext_resource type="PackedScene" uid="uid://b3y10wvmjlsbx" path="res://scenes/goal/goal.tscn" id="5_uckkq"]
-[ext_resource type="PackedScene" uid="uid://2pcukjso65g3" path="res://scenes/fruit/fruit.tscn" id="6_kj5bh"]
-[ext_resource type="PackedScene" uid="uid://dfnk3rjvfe3e5" path="res://scenes/golden fruit/golden_fruit.tscn" id="7_qq6pr"]
-[ext_resource type="Texture2D" uid="uid://b4h6g6curpidf" path="res://assets/sprites/platform/0.png" id="9_dskp0"]
+[ext_resource type="PackedScene" uid="uid://cuk0oolvd88u" path="res://scenes/player/Player.tscn" id="1_1qlkt"]
+[ext_resource type="PackedScene" uid="uid://f58f4l86esad" path="res://scenes/backgrounds/BG_Season1.tscn" id="1_m2bc6"]
+[ext_resource type="PackedScene" uid="uid://bhttfxvnuekuy" path="res://scenes/object/water/Water.tscn" id="1_qp8cy"]
+[ext_resource type="PackedScene" uid="uid://c35qpwkdrnms7" path="res://scenes/enemy/dynamic_enemy/Tiger.tscn" id="3_gxbyl"]
+[ext_resource type="PackedScene" uid="uid://0dhex5ivjyaf" path="res://scenes/enemy/static_enemy/Spike.tscn" id="4_2bg05"]
+[ext_resource type="PackedScene" uid="uid://b3y10wvmjlsbx" path="res://scenes/goal/Goal.tscn" id="5_uckkq"]
+[ext_resource type="PackedScene" uid="uid://2pcukjso65g3" path="res://scenes/fruit/Fruit.tscn" id="6_kj5bh"]
+[ext_resource type="PackedScene" uid="uid://dfnk3rjvfe3e5" path="res://scenes/golden_fruit/GoldenFruit.tscn" id="7_qq6pr"]
+[ext_resource type="Texture2D" uid="uid://b4h6g6curpidf" path="res://assets/sprites/platform/platform_0.png" id="9_dskp0"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_uv2g2"]
 
