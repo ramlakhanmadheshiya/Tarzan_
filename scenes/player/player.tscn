@@ -48,7 +48,7 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 10.0,
 "texture": ExtResource("10_3iyif")
 }],
 "loop": true,
@@ -138,7 +138,7 @@ spear_scene = ExtResource("2_6fxqh")
 position = Vector2(0, -1.52841)
 scale = Vector2(1, 0.923822)
 sprite_frames = SubResource("SpriteFrames_7rrpk")
-animation = &"idle_run"
+animation = &"go_up"
 autoplay = "idle_run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

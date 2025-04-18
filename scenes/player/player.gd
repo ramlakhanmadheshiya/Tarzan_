@@ -6,26 +6,27 @@ extends CharacterBody2D
 @export var swim_speed_horizontal = 100.0
 @export var water_gravity_scale = 0.3
 @export var attack_duration = 0.6
-@export var deceleration_factor = 5.0
-@export var spear_scene: PackedScene  # Assigned in inspector
+@export var spear_scene: PackedScene
 
-# -- Runtime variables --
+# -- Runtime --
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # -- Cached nodes --
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var water_detector = $WaterDetector
-@onready var floor_ray = $FloorRay  # Must point downward
+@onready var floor_ray = $FloorRay
 
-# -- States --
+# -- State machine --
 enum State { IDLE_RUN, GO_UP, GO_DOWN, SWIM, ATTACK, DIE, GOAL }
 var current_state = State.IDLE_RUN
 
-# -- Flags & gameplay --
+# -- Flags and gameplay --
 var facing_direction = 1
 var is_in_water = false
 var is_attacking = false
 var attack_timer = 0.0
+var go_up_timer = 0.0
+var go_down_timer = 0.0  # ⬇️ Timer for go_down animation
 var fruit_score = 0
 var reached_goal = false
 
@@ -37,24 +38,32 @@ func _physics_process(delta):
 	if current_state in [State.DIE, State.GOAL]:
 		return
 
-	# Handle attack timing
+	# Decrease timers
 	if is_attacking:
 		attack_timer -= delta
 		if attack_timer <= 0:
 			is_attacking = false
 
-	# Handle gravity
+	if go_up_timer > 0:
+		go_up_timer -= delta
+
+	if go_down_timer > 0:
+		go_down_timer -= delta  # ⬇️ countdown go_down timer
+
+	# Gravity
 	if not is_on_floor() and not is_in_water:
 		velocity.y += gravity * delta
 	elif is_in_water:
-		velocity.y = 0  # ❌ Disable vertical physics movement in water
+		velocity.y = 0
 
-	# Handle manual up/down keys (don't modify this)
+	# Manual keys (don't touch)
 	if Input.is_action_just_pressed("go_up") and is_on_floor():
 		velocity.y = jump_velocity
+		go_up_timer = 0.5  # ⏱ Lock GO_UP animation
 
 	if Input.is_action_just_pressed("go_down") and is_on_floor():
 		position.y += 1
+		go_down_timer = 0.2  # ⏱ Lock GO_DOWN animation
 
 	handle_input(delta)
 	move_and_slide()
@@ -63,20 +72,17 @@ func _physics_process(delta):
 
 func handle_input(delta):
 	if is_in_water:
-		# ✅ Auto swim right only
 		velocity.x = swim_speed_horizontal
 		velocity.y = 0
 		return
 
-	# ✅ On land: Autorun to the right
 	velocity.x = speed
 	facing_direction = 1
 
-	# ✅ Attack (only on land)
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		is_attacking = true
 		attack_timer = attack_duration
-		velocity.x = 0  # Stop while attacking
+		velocity.x = 0
 
 		if spear_scene:
 			var spear = spear_scene.instantiate()
@@ -84,7 +90,7 @@ func handle_input(delta):
 			spear.direction = facing_direction
 			get_tree().current_scene.add_child(spear)
 
-	animated_sprite.flip_h = false  # Always face right
+	animated_sprite.flip_h = false
 
 func update_state():
 	if current_state in [State.DIE, State.GOAL]:
@@ -93,10 +99,10 @@ func update_state():
 		current_state = State.ATTACK
 	elif is_in_water:
 		current_state = State.SWIM
-	elif Input.is_action_pressed("go_up"):
+	elif go_up_timer > 0:
 		current_state = State.GO_UP
-	elif Input.is_action_pressed("go_down"):
-		current_state = State.GO_DOWN
+	elif go_down_timer > 0:
+		current_state = State.GO_DOWN  # ⬇️ Lock GO_DOWN animation
 	else:
 		current_state = State.IDLE_RUN
 
@@ -117,7 +123,7 @@ func update_animation():
 func set_in_water(status: bool):
 	is_in_water = status
 	if is_in_water:
-		velocity.y = 0  # Reset vertical velocity when entering water
+		velocity.y = 0
 
 func die(instant := false):
 	if current_state == State.DIE:
