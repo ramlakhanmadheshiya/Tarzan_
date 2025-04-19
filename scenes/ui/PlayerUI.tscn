@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://q1ykjdmlprgi"]
+
+[ext_resource type="Script" path="res://scenes/ui/player_ui.gd" id="1_n3wm0"]
+[ext_resource type="Texture2D" uid="uid://k8mnt84aegmt" path="res://assets/sprites/fruit/fruit_0.png" id="2_s4u7w"]
+[ext_resource type="Texture2D" uid="uid://dbave0ujtu2j5" path="res://assets/sprites/golden_fruit/golden_fruit_0.png" id="3_5nig5"]
+[ext_resource type="Texture2D" uid="uid://ci0idwicbxp1r" path="res://assets/sprites/spear/spear_2.png" id="4_gsofi"]
+
+[node name="PlayerUI" type="CanvasLayer"]
+script = ExtResource("1_n3wm0")
+
+[node name="UIRoot" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MainUI" type="HBoxContainer" parent="UIRoot"]
+layout_mode = 2
+
+[node name="Fruit" type="HBoxContainer" parent="UIRoot/MainUI"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="FruitIcon" type="TextureRect" parent="UIRoot/MainUI/Fruit"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_s4u7w")
+expand_mode = 3
+
+[node name="FruitCount" type="Label" parent="UIRoot/MainUI/Fruit"]
+layout_mode = 2
+text = "0"
+
+[node name="GoldenFruit" type="HBoxContainer" parent="UIRoot/MainUI"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="GoldenFruitIcon" type="TextureRect" parent="UIRoot/MainUI/GoldenFruit"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_5nig5")
+expand_mode = 3
+
+[node name="GoldenFruitCount" type="Label" parent="UIRoot/MainUI/GoldenFruit"]
+layout_mode = 2
+text = "0"
+
+[node name="spear" type="HBoxContainer" parent="UIRoot/MainUI"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="SpearIcon" type="TextureRect" parent="UIRoot/MainUI/spear"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("4_gsofi")
+expand_mode = 3
+
+[node name="SpearCount" type="Label" parent="UIRoot/MainUI/spear"]
+layout_mode = 2
+text = "0"

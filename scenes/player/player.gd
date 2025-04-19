@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-# -- Movement & behavior config --
 @export var speed = 100.0
 @export var jump_velocity = -450.0
 @export var swim_speed_horizontal = 100.0
@@ -8,37 +7,39 @@ extends CharacterBody2D
 @export var attack_duration = 0.6
 @export var spear_scene: PackedScene
 
-# -- Runtime --
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# -- Cached nodes --
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var water_detector = $WaterDetector
-@onready var floor_ray = $FloorRay
+#@onready var floor_ray = $FloorRay
 
-# -- State machine --
 enum State { IDLE_RUN, GO_UP, GO_DOWN, SWIM, ATTACK, DIE, GOAL }
 var current_state = State.IDLE_RUN
 
-# -- Flags and gameplay --
 var facing_direction = 1
 var is_in_water = false
 var is_attacking = false
 var attack_timer = 0.0
 var go_up_timer = 0.0
-var go_down_timer = 0.0  # ⬇️ Timer for go_down animation
+var go_down_timer = 0.0
 var fruit_score = 0
+var golden_score = 0
+var spear_count = 3
 var reached_goal = false
 
 func _ready():
 	add_to_group("player")
+	SaveData.load_game()
+	fruit_score = SaveData.fruit_score
+	golden_score = SaveData.golden_score
+	spear_count = SaveData.spear_count
 	update_animation()
+	update_ui()
 
 func _physics_process(delta):
 	if current_state in [State.DIE, State.GOAL]:
 		return
 
-	# Decrease timers
 	if is_attacking:
 		attack_timer -= delta
 		if attack_timer <= 0:
@@ -48,22 +49,20 @@ func _physics_process(delta):
 		go_up_timer -= delta
 
 	if go_down_timer > 0:
-		go_down_timer -= delta  # ⬇️ countdown go_down timer
+		go_down_timer -= delta
 
-	# Gravity
 	if not is_on_floor() and not is_in_water:
 		velocity.y += gravity * delta
 	elif is_in_water:
 		velocity.y = 0
 
-	# Manual keys (don't touch)
 	if Input.is_action_just_pressed("go_up") and is_on_floor():
 		velocity.y = jump_velocity
-		go_up_timer = 0.5  # ⏱ Lock GO_UP animation
+		go_up_timer = 0.5
 
 	if Input.is_action_just_pressed("go_down") and is_on_floor():
 		position.y += 1
-		go_down_timer = 0.2  # ⏱ Lock GO_DOWN animation
+		go_down_timer = 0.2
 
 	handle_input(delta)
 	move_and_slide()
@@ -79,10 +78,14 @@ func handle_input(delta):
 	velocity.x = speed
 	facing_direction = 1
 
-	if Input.is_action_just_pressed("attack") and not is_attacking:
+	if Input.is_action_just_pressed("attack") and not is_attacking and spear_count > 0:
 		is_attacking = true
 		attack_timer = attack_duration
 		velocity.x = 0
+		spear_count -= 1
+		SaveData.spear_count = spear_count
+		SaveData.save_game()
+		update_ui()
 
 		if spear_scene:
 			var spear = spear_scene.instantiate()
@@ -102,7 +105,7 @@ func update_state():
 	elif go_up_timer > 0:
 		current_state = State.GO_UP
 	elif go_down_timer > 0:
-		current_state = State.GO_DOWN  # ⬇️ Lock GO_DOWN animation
+		current_state = State.GO_DOWN
 	else:
 		current_state = State.IDLE_RUN
 
@@ -116,9 +119,14 @@ func update_animation():
 		State.ATTACK: anim_name = "attack"
 		State.DIE: anim_name = "die"
 		State.GOAL: anim_name = "goal"
-
 	if animated_sprite.animation != anim_name:
 		animated_sprite.play(anim_name)
+
+func update_ui():
+	var ui = get_tree().current_scene.get_node_or_null("PlayerUI")
+	if ui:
+		ui.update_spear(spear_count)
+		ui.update_fruit(fruit_score, golden_score)
 
 func set_in_water(status: bool):
 	is_in_water = status
@@ -142,7 +150,21 @@ func die(instant := false):
 
 func collect_fruit():
 	fruit_score += 1
-	print("🍇 Fruit score: ", fruit_score)
+	SaveData.fruit_score = fruit_score
+	SaveData.save_game()
+	update_ui()
+
+func collect_golden_fruit():
+	golden_score += 1
+	SaveData.golden_score = golden_score
+	SaveData.save_game()
+	update_ui()
+
+func collect_spear():
+	spear_count += 1
+	SaveData.spear_count = spear_count
+	SaveData.save_game()
+	update_ui()
 
 func on_reach_goal():
 	if not reached_goal:
@@ -150,13 +172,10 @@ func on_reach_goal():
 		current_state = State.GOAL
 		velocity = Vector2.ZERO
 		update_animation()
-		
-		# 👇 Extract current season & level
+
 		var path = get_tree().current_scene.scene_file_path
 		var season = int(path.get_file().split("_")[0].replace("S", ""))
 		var level = int(path.get_file().split("_")[1].replace("Level", "").replace(".tscn", ""))
-
-		# 👇 Unlock logic
 		var current_unlocked = SaveData.unlocked_levels.get(season, 0)
 		if level >= current_unlocked:
 			SaveData.unlocked_levels[season] = level + 1
@@ -165,6 +184,5 @@ func on_reach_goal():
 				SaveData.unlocked_levels[season + 1] = 1
 
 		SaveData.save_game()
-		
 		await get_tree().create_timer(2.0).timeout
 		get_tree().change_scene_to_file("res://scenes/menu.tscn")

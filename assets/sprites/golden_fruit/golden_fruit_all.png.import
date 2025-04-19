@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5laim1weehn6"
-path="res://.godot/imported/bar_0.jpg-2e83fe3711700bda852dcf8ad5d93174.ctex"
+uid="uid://bxi0q2kmmrf8t"
+path="res://.godot/imported/golden_fruit_all.png-3e6cc21de6e86fedb71136ea0c511133.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/health_bar/bar/bar_0.jpg"
-dest_files=["res://.godot/imported/bar_0.jpg-2e83fe3711700bda852dcf8ad5d93174.ctex"]
+source_file="res://assets/sprites/golden_fruit/golden_fruit_all.png"
+dest_files=["res://.godot/imported/golden_fruit_all.png-3e6cc21de6e86fedb71136ea0c511133.ctex"]
 
 [params]
 
