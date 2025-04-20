@@ -1,6 +1,6 @@
 extends Control
 
-const SEASON = 3
+const SEASON = 1
 
 func _ready():
 	SaveData.load_game()
@@ -13,9 +13,8 @@ func _ready():
 		button.pressed.connect(func(): _on_level_pressed(i))
 
 func _on_level_pressed(level_number: int):
-	var path = "res://scenes/Seasons/S%d_Levels/S%d_Level%d.tscn" % [SEASON, SEASON, level_number]
+	var path = "res://scenes/seasons/s%d_levels/S%dLevel%d.tscn" % [SEASON, SEASON, level_number]
 	get_tree().change_scene_to_file(path)
-
 
 func _on_BackButton_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/season_select/SeasonSelect.tscn")

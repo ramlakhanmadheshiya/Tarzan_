@@ -5,7 +5,6 @@ const SAVE_PATH = "user://save_game.save"
 var unlocked_season: int = 1
 var unlocked_levels := {1: 1, 2: 0, 3: 0}
 
-# ✅ Add these lines:
 var fruit_score := 0
 var golden_score := 0
 var spear_count := 3

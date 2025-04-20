@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed = 100.0
+@export var speed = 200.0
 @export var jump_velocity = -450.0
 @export var swim_speed_horizontal = 100.0
 @export var water_gravity_scale = 0.3
@@ -173,9 +173,17 @@ func on_reach_goal():
 		velocity = Vector2.ZERO
 		update_animation()
 
-		var path = get_tree().current_scene.scene_file_path
-		var season = int(path.get_file().split("_")[0].replace("S", ""))
-		var level = int(path.get_file().split("_")[1].replace("Level", "").replace(".tscn", ""))
+		var filename = get_tree().current_scene.scene_file_path.get_file()
+		var s_index = filename.find("S")
+		var level_index = filename.find("Level")
+
+		if s_index == -1 or level_index == -1:
+			push_error("❌ Invalid scene name format! Expected format like 'S1Level3.tscn'")
+			return
+
+		var season = int(filename.substr(s_index + 1, level_index - s_index - 1))
+		var level = int(filename.substr(level_index + 5, filename.length() - level_index - 10))  # "Level" is 5 chars
+
 		var current_unlocked = SaveData.unlocked_levels.get(season, 0)
 		if level >= current_unlocked:
 			SaveData.unlocked_levels[season] = level + 1
@@ -183,6 +191,31 @@ func on_reach_goal():
 				SaveData.unlocked_season = max(SaveData.unlocked_season, season + 1)
 				SaveData.unlocked_levels[season + 1] = 1
 
+		print("✅ Reached goal: Season %d, Level %d" % [season, level])
 		SaveData.save_game()
+
 		await get_tree().create_timer(2.0).timeout
-		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		get_tree().change_scene_to_file("res://scenes/main_menu/MainMenu.tscn")
+
+	if not reached_goal:
+		reached_goal = true
+		current_state = State.GOAL
+		velocity = Vector2.ZERO
+		update_animation()
+
+		var path = get_tree().current_scene.scene_file_path
+		var season = int(path.get_file().split("_")[0].replace("S", ""))
+		var level = int(path.get_file().split("_")[1].replace("Level", "").replace(".tscn", ""))
+		
+		var current_unlocked = SaveData.unlocked_levels.get(season, 0)
+		if level >= current_unlocked:
+			SaveData.unlocked_levels[season] = level + 1
+			if level == 10:
+				SaveData.unlocked_season = max(SaveData.unlocked_season, season + 1)
+				SaveData.unlocked_levels[season + 1] = 1
+
+		print("✅ Saving after reaching goal...")
+		SaveData.save_game()
+
+		await get_tree().create_timer(2.0).timeout
+		get_tree().change_scene_to_file("res://scenes/main_menu/MainMenu.tscn")

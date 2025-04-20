@@ -1,16 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://q1ykjdmlprgi"]
+[gd_scene load_steps=6 format=3 uid="uid://q1ykjdmlprgi"]
 
 [ext_resource type="Script" path="res://scenes/ui/player_ui.gd" id="1_n3wm0"]
 [ext_resource type="Texture2D" uid="uid://k8mnt84aegmt" path="res://assets/sprites/fruit/fruit_0.png" id="2_s4u7w"]
 [ext_resource type="Texture2D" uid="uid://dbave0ujtu2j5" path="res://assets/sprites/golden_fruit/golden_fruit_0.png" id="3_5nig5"]
 [ext_resource type="Texture2D" uid="uid://ci0idwicbxp1r" path="res://assets/sprites/spear/spear_2.png" id="4_gsofi"]
+[ext_resource type="Texture2D" uid="uid://c61vkqbf827ij" path="res://assets/sprites/pause_menu/pause_button_0.jpg" id="5_p7pi6"]
 
 [node name="PlayerUI" type="CanvasLayer"]
 script = ExtResource("1_n3wm0")
 
 [node name="UIRoot" type="MarginContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 43.0
+grow_horizontal = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -18,6 +21,8 @@ theme_override_constants/margin_bottom = 10
 
 [node name="MainUI" type="HBoxContainer" parent="UIRoot"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 
 [node name="Fruit" type="HBoxContainer" parent="UIRoot/MainUI"]
 layout_mode = 2
@@ -60,3 +65,15 @@ expand_mode = 3
 [node name="SpearCount" type="Label" parent="UIRoot/MainUI/spear"]
 layout_mode = 2
 text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIRoot"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="PauseButton" type="Button" parent="UIRoot/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 50
+icon = ExtResource("5_p7pi6")
+
+[connection signal="pressed" from="UIRoot/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
